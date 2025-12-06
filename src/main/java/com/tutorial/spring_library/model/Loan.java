@@ -1,12 +1,17 @@
 package com.tutorial.spring_library.model;
 
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Loan {
     private UUID id;
     private UUID userId;
