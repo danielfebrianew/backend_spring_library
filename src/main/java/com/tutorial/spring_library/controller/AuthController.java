@@ -1,6 +1,10 @@
 package com.tutorial.spring_library.controller;
 
 import com.tutorial.spring_library.dto.*;
+import com.tutorial.spring_library.dto.auth.AuthResponse;
+import com.tutorial.spring_library.dto.auth.LoginRequest;
+import com.tutorial.spring_library.dto.auth.RegisterRequest;
+import com.tutorial.spring_library.dto.user.UserDto;
 import com.tutorial.spring_library.model.User;
 import com.tutorial.spring_library.service.AuthService;
 import com.tutorial.spring_library.service.UserService;

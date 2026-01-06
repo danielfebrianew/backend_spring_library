@@ -1,7 +1,7 @@
 package com.tutorial.spring_library.controller;
 
 import com.tutorial.spring_library.dto.ApiResponse;
-import com.tutorial.spring_library.dto.BookDto;
+import com.tutorial.spring_library.dto.book.BookDto;
 import com.tutorial.spring_library.model.Book;
 import com.tutorial.spring_library.service.BookService;
 import lombok.RequiredArgsConstructor;

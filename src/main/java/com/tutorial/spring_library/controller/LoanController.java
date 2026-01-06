@@ -1,8 +1,8 @@
 package com.tutorial.spring_library.controller;
 
 import com.tutorial.spring_library.dto.ApiResponse;
-import com.tutorial.spring_library.dto.LoanApproveRequest;
-import com.tutorial.spring_library.dto.LoanDto;
+import com.tutorial.spring_library.dto.loan.LoanApproveRequest;
+import com.tutorial.spring_library.dto.loan.LoanDto;
 import com.tutorial.spring_library.model.Loan;
 import com.tutorial.spring_library.model.User;
 import com.tutorial.spring_library.service.LoanService;

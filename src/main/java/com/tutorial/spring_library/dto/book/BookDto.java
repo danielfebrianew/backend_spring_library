@@ -1,12 +1,16 @@
-package com.tutorial.spring_library.dto;
+package com.tutorial.spring_library.dto.book;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BookDto {
     private UUID id;
