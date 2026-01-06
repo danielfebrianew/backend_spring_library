@@ -1,5 +1,4 @@
-# --- Stage 1: Build (Pakai Java 21 SDK) ---
-# Gunakan image JDK lengkap untuk proses build
+# --- Stage 1: Build (PENTING: Pakai Image yang sudah ada JDK 21) ---
 FROM eclipse-temurin:21-jdk-jammy AS build
 
 WORKDIR /app
@@ -7,26 +6,21 @@ WORKDIR /app
 # Copy semua file project ke dalam container
 COPY . .
 
-# Berikan izin eksekusi ke file gradlew (PENTING: kadang permission hilang saat copy)
+# Berikan izin eksekusi ke file gradlew
 RUN chmod +x gradlew
 
-# Build aplikasi jadi file .jar
-# Gunakan 'bootJar' untuk memastikan kita dapat executable jar (bukan plain jar)
-# '-x test' untuk skip testing biar deploy lebih cepat
+# Build pakai WRAPPER (./gradlew), bukan 'gradle' biasa
+# Ini kunci biar dia pake Java yang ada di container ini
 RUN ./gradlew clean bootJar -x test
 
-# --- Stage 2: Run (Pakai Java 21 JRE) ---
-# Gunakan image JRE yang lebih kecil untuk running (Alpine Linux)
+# --- Stage 2: Run ---
 FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
-# Ambil hasil build dari folder build/libs di stage 1
-# Note: Spring Boot Gradle biasanya taruh jar di build/libs/
+# Ambil hasil build (perhatikan path build/libs/)
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# Expose port 8181 sesuai request kamu
 EXPOSE 8181
 
-# Jalankan aplikasi
 ENTRYPOINT ["java", "-jar", "app.jar"]
