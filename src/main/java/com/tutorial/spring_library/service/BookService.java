@@ -2,7 +2,7 @@ package com.tutorial.spring_library.service;
 
 import com.tutorial.spring_library.exception.ResourceNotFoundException;
 import com.tutorial.spring_library.model.Book;
-import com.tutorial.spring_library.dto.BookDto; // Import DTO
+import com.tutorial.spring_library.dto.book.BookDto; // Import DTO
 import com.tutorial.spring_library.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

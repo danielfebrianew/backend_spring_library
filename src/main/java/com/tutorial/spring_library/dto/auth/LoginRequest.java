@@ -1,4 +1,4 @@
-package com.tutorial.spring_library.dto;
+package com.tutorial.spring_library.dto.auth;
 
 import jakarta.validation.constraints.NotBlank;
 

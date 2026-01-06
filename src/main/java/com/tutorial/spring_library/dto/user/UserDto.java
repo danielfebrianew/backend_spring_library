@@ -1,4 +1,4 @@
-package com.tutorial.spring_library.dto;
+package com.tutorial.spring_library.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
