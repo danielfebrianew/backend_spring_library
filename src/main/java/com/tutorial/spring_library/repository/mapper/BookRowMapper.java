@@ -2,6 +2,7 @@ package com.tutorial.spring_library.repository.mapper;
 
 import com.tutorial.spring_library.model.Book;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.lang.NonNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,7 +11,7 @@ import java.util.UUID;
 public class BookRowMapper implements RowMapper<Book> {
 
     @Override
-    public Book mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public Book mapRow(@NonNull ResultSet rs, int rowNum) throws SQLException {
         Book book = new Book();
 
         book.setId(rs.getObject("id", UUID.class));
