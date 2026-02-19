@@ -15,9 +15,9 @@ public class OpenApiConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Kertas Kerja V2")
+                        .title("Spring Library")
                         .version("1.0")
-                        .description("Dokumentasi API untuk Sistem Kertas Kerja V2"))
+                        .description("Dokumentasi API untuk Sistem Spring Library"))
                 .addSecurityItem(new SecurityRequirement().addList("bearerAuth"))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth",
