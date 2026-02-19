@@ -25,6 +25,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration; // Tambahan Import
+import org.springframework.web.cors.CorsConfigurationSource; // Tambahan Import
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource; // Tambahan Import
+
+import java.util.List; // Tambahan Import
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -36,7 +41,6 @@ public class SecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
     private final UnauthorizedHandler unauthorizedHandler;
     private final ForbiddenHandler forbiddenHandler;
 
@@ -45,12 +49,28 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // --- KONFIGURASI CORS (PENTING!) ---
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // Izinkan semua origin (untuk development). Nanti bisa diganti domain frontend spesifik.
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
+        configuration.setExposedHeaders(List.of("Authorization"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
     // --- SWAGGER ---
     @Bean
     @Order(1)
     public SecurityFilterChain swaggerFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
+                .cors(withDefaults()) // Aktifkan CORS di sini juga
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .httpBasic(withDefaults())
@@ -68,12 +88,13 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager(superAdmin);
     }
 
-    // --- JWT ---
+    // --- JWT API ---
     @Bean
     @Order(2)
     public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
         http
                 .securityMatcher("/api/**")
+                .cors(withDefaults()) // <--- INI WAJIB DITAMBAHKAN AGAR BEAN CORS DI ATAS TERBACA
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**").permitAll()
@@ -84,8 +105,8 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
                 .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(unauthorizedHandler) // Handle Error 401
-                        .accessDeniedHandler(forbiddenHandler)         // Handle Error 403
+                        .authenticationEntryPoint(unauthorizedHandler)
+                        .accessDeniedHandler(forbiddenHandler)
                 );
 
         return http.build();
