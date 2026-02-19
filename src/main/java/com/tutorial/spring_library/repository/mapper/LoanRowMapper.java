@@ -1,7 +1,9 @@
 package com.tutorial.spring_library.repository.mapper;
 
 import com.tutorial.spring_library.model.Loan;
+
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.lang.NonNull;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +14,7 @@ import java.util.UUID;
 public class LoanRowMapper implements RowMapper<Loan> {
 
     @Override
-    public Loan mapRow(ResultSet rs, int rowNum) throws SQLException {
+    public Loan mapRow(@NonNull ResultSet rs, int rowNum) throws SQLException {
         Loan loan = new Loan();
 
         loan.setId(rs.getObject("id", UUID.class));

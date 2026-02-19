@@ -4,6 +4,7 @@ import com.tutorial.spring_library.dto.ApiResponse;
 import com.tutorial.spring_library.dto.book.BookDto;
 import com.tutorial.spring_library.model.Book;
 import com.tutorial.spring_library.service.BookService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,7 +54,7 @@ public class BookController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public ResponseEntity<ApiResponse<BookDto>> createBook(@RequestBody BookDto dto) {
+    public ResponseEntity<ApiResponse<BookDto>> createBook(@Valid @RequestBody BookDto dto) {
         Book savedBook = bookService.createBook(mapToEntity(dto));
         return ResponseEntity.status(201).body(ApiResponse.created(mapToDto(savedBook)));
     }
